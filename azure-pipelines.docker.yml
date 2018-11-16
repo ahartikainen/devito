@@ -8,22 +8,30 @@ resources:
     image: 'tmbgreaves/devito-gcc-4.9'
 
 jobs:
-- job: build_gcc_4_9
+- job: build_gcc
   pool:
     vmImage: 'Ubuntu 16.04'
+  strategy:
+    matrix:
+      gcc4:
+        gcc.version: '4.9'
+      gcc5:
+        gcc.version: '5'
+    maxParallel: 2
+
   variables:
-    imageName: 'devito-gcc-4.9'
+    imageName: devito-gcc
   steps:
   - script: |
-      docker build -f Dockerfile.azurepipeline -t $(dockerId)/$(imageName):$(Build.BuildId) --build-arg gccvers=4.9 .
-      docker tag $(dockerId)/$(imageName):$(Build.BuildId) $(dockerId)/$(imageName):latest
+      docker build -f Dockerfile.azurepipeline -t $(dockerId)/$(imageName)-$(gcc.version):$(Build.BuildId) --build-arg gccvers=$(gcc.version) .
+      docker tag $(dockerId)/$(imageName)-$(gcc.version):$(Build.BuildId) $(dockerId)/$(imageName)-$(gcc.version):latest
       docker login -u $(dockerId) -p $(dockerPassword)
-      docker push $(dockerId)/$(imageName):$(Build.BuildId)
-      docker push $(dockerId)/$(imageName):latest
+      docker push $(dockerId)/$(imageName)-$(gcc.version):$(Build.BuildId)
+      docker push $(dockerId)/$(imageName)-$(gcc.version):latest
 
 - job: test_gcc_4_9
-  dependsOn: build_gcc_4_9
-  condition: succeeded('build_gcc_4_9')
+  dependsOn: build_gcc
+  condition: succeeded('build_gcc')
   pool:
     vmImage: 'Ubuntu 16.04'
   container: gcc49
