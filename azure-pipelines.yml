@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
 jobs:
-- job: 'build-gcc-4.9' 
+- job: build_gcc_4_9
 
   pool:
     vmImage: 'Ubuntu 16.04'
