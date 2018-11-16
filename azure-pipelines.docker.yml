@@ -23,10 +23,6 @@ jobs:
 - job: test_gcc_4_9
   dependsOn: build_gcc_4_9
   condition: succeeded('build_gcc_4_9')
-  resources:
-    containers:
-    - container: gcc49
-      image: 'tmbgreaves/devito:gcc49'
   pool:
     vmImage: 'Ubuntu 16.04'
   container: gcc49
