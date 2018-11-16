@@ -28,5 +28,8 @@ jobs:
     vmImage: 'Ubuntu 16.04'
   container: gcc49
   steps:
-  - script: ls -la
-    displayName: 'Testing with gcc 4.9'
+  - script: |
+      git clean -fxd
+      mkdir -p lib/python3.6/site-packages/
+      python setup.py install --prefix=lib/python3.6/site-packages/
+      bin/flake8 --exclude lib/python3.6/site-packages,.git --builtins=ArgumentError .
