@@ -17,11 +17,9 @@ jobs:
   - script: |
       docker build -f Dockerfile.azurepipeline -t $(dockerId)/$(imageName):$(Build.BuildId) --build-arg gccvers=4.9 .
       docker tag $(dockerId)/$(imageName):$(Build.BuildId) $(dockerId)/$(imageName):latest
-      docker login -u $(dockerId) -p $(pswd)
+      docker login -u $(dockerId) -p $(dockerPassword)
       docker push $(dockerId)/$(imageName):$(Build.BuildId)
       docker push $(dockerId)/$(imageName):latest
-    env:
-      pswd: $(dockerPassword)
 
 - job: test_gcc_4_9
   dependsOn: build_gcc_4_9
