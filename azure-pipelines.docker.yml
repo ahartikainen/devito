@@ -8,7 +8,7 @@ resources:
     image: 'tmbgreaves/devito-gcc-4.9'
 
 jobs:
-- job: build_gcc
+- job: 'Build base containers'
   pool:
     vmImage: 'Ubuntu 16.04'
   strategy:
@@ -29,15 +29,18 @@ jobs:
       docker push $(dockerId)/$(imageName)-$(gcc.version):$(Build.BuildId)
       docker push $(dockerId)/$(imageName)-$(gcc.version):latest
 
-- job: test_gcc_4_9
+- job: Testing
   dependsOn: build_gcc
   condition: succeeded('build_gcc')
   pool:
     vmImage: 'Ubuntu 16.04'
   container: gcc49
   steps:
-  - script: |
-      git clean -fxd
-      python setup.py install
-      bin/flake8 --builtins=ArgumentError .
-      python setup.py test
+  - script: git clean -fxd
+    displayName: 'Restore checkout to clean state'
+  - script: python setup.py install
+    displayName: 'Install'
+  - script: bin/flake8 --builtins=ArgumentError .
+    displayName: 'Run flake8'
+  - script: python setup.py test
+    displayName: 'Run tests'
