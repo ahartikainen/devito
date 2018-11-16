@@ -9,19 +9,17 @@ jobs:
     vmImage: 'ubuntu:xenial'
   variables:
     imageName: 'tmbgreaves/devito:gcc49_$(build.buildId)'
-    gccVers: 4.9
   steps:
-  - script: docker build -f Dockerfile.azurepipeline -t $(imageName) --build-arg gccvers=$(gccVers) .
+  - script: docker build -f Dockerfile.azurepipeline -t $(imageName) --build-arg gccvers=4.9 .
     displayName: 'Building gcc-$(gccVers) container'
 
 - job: test_gcc_4_9
   dependsOn: build_gcc_4_9
   condition: succeeded('build_gcc_4_9')
   pool:
-    vmImage: tmbgreaves/devito:gcc49_$(build.buildId)'
+    vmImage: 'tmbgreaves/devito:gcc49_$(build.buildId)'
   variables:
     imageName: 'tmbgreaves/devito:gcc49_$(build.buildId)'
-    gccVers: 4.9
   steps:
-  - script: docker build -f Dockerfile.azurepipeline -t $(imageName) --build-arg gccvers=$(gccVers) .
-    displayName: 'Building gcc-$(gccVers) container'
+  - script: ls -la
+    displayName: 'Testing with gcc-$(gccVers)'
