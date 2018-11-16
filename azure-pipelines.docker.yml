@@ -5,7 +5,7 @@
 resources:
   containers:
   - container: gcc49
-    image: 'tmbgreaves/devito:gcc49'
+    image: 'tmbgreaves/devito-gcc-4.9'
 
 jobs:
 - job: build_gcc_4_9
