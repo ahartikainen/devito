@@ -3,12 +3,16 @@
 # Add steps that use Docker Compose, tag images, push to a registry, run an image, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
 
-pool:
-  vmImage: 'Ubuntu 16.04'
+jobs:
+- job: 'build-gcc-4.9' 
 
-variables:
-  imageName: 'devito-azure-pipeline:$(build.buildId)'
+  pool:
+    vmImage: 'Ubuntu 16.04'
 
-steps:
-- script: docker build -f Dockerfile.jenkins -t $(imageName) .
-  displayName: 'docker build'
+  variables:
+    imageName: 'devito-gcc4.9:$(build.buildId)'
+
+  steps:
+  - script: docker build -f Dockerfile.azurepipeline -t $(imageName) .
+    displayName: 'docker build'
+
