@@ -2,6 +2,10 @@
 # Build a Docker image to deploy, run, or push to a container registry.
 # Add steps that use Docker Compose, tag images, push to a registry, run an image, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+resources:
+  containers:
+  - container: gcc49
+    image: 'tmbgreaves/devito:gcc49'
 
 jobs:
 - job: build_gcc_4_9
@@ -12,19 +16,20 @@ jobs:
   steps:
   - script: docker build -f Dockerfile.azurepipeline -t $(imageName) --build-arg gccvers=4.9 .
     displayName: 'Building gcc-$(gccVers) container'
-  - script: docker login -u $(dockerId) -p $(dockerPassword)
+  - script: |
+      docker login -u $(dockerId) -p $(dockerPassword)
+      docker push ${imageName}
 
 - job: test_gcc_4_9
   dependsOn: build_gcc_4_9
+  condition: succeeded('build_gcc_4_9')
   resources:
     containers:
-    - container: my_container
-      image: ubuntu:16.04
-
+    - container: gcc49
+      image: 'tmbgreaves/devito:gcc49'
   pool:
-    vmImage: 'ubuntu-16.04'
-
-  container: my_container
-
+    vmImage: 'Ubuntu 16.04'
+  container: gcc49
   steps:
-  - script: printenv
+  - script: ls -la
+    displayName: 'Testing with gcc-$(gccVers)'
