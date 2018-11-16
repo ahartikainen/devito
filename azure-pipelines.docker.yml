@@ -16,14 +16,15 @@ jobs:
 
 - job: test_gcc_4_9
   dependsOn: build_gcc_4_9
-  condition: succeeded('build_gcc_4_9')
   resources:
     containers:
-    - container: gcc49
-      image: 'tmbgreaves/devito:gcc49'
+    - container: my_container
+      image: ubuntu:16.04
+
   pool:
-    vmImage: 'Ubuntu 16.04'
-  container: gcc49
+    vmImage: 'ubuntu-16.04'
+
+  container: my_container
+
   steps:
-  - script: ls -la
-    displayName: 'Testing with gcc-$(gccVers)'
+  - script: printenv
