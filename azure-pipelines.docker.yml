@@ -38,6 +38,6 @@ jobs:
   steps:
   - script: |
       git clean -fxd
-      sudo python setup.py install
+      python setup.py install
       bin/flake8 --builtins=ArgumentError .
       python setup.py test
