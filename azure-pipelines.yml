@@ -5,13 +5,23 @@
 
 jobs:
 - job: build_gcc_4_9
-
   pool:
     vmImage: 'Ubuntu 16.04'
-
   variables:
     imageName: 'devito-gcc4.9:$(build.buildId)'
-
+    gccVers: 4.9
   steps:
-  - script: docker build -f Dockerfile.azurepipeline -t $(imageName) --build-arg gccvers=4.9 .
-    displayName: 'Building gcc-4.9 container'
+  - script: docker build -f Dockerfile.azurepipeline -t $(imageName) --build-arg gccvers=$(gccVers) .
+    displayName: 'Building gcc-$(gccVers) container'
+
+- job: test_gcc_4_9
+  dependsOn: build_gcc_4_9
+  condition: succeeded('build_gcc_4_9')
+  pool:
+    vmImage: 
+  variables:
+    imageName: 'devito-gcc4.9:$(build.buildId)'
+    gccVers: 4.9
+  steps:
+  - script: docker build -f Dockerfile.azurepipeline -t $(imageName) --build-arg gccvers=$(gccVers) .
+    displayName: 'Building gcc-$(gccVers) container'
