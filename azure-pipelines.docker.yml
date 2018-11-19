@@ -8,7 +8,7 @@ resources:
     image: 'tmbgreaves/devito-gcc-4.9'
 
 jobs:
-- job: 'Build base containers'
+- job: Container_Build
   pool:
     vmImage: 'Ubuntu 16.04'
   strategy:
