@@ -30,8 +30,8 @@ jobs:
       docker push $(dockerId)/$(imageName)-$(gcc.version):latest
 
 - job: Testing
-  dependsOn: build_gcc
-  condition: succeeded('build_gcc')
+  dependsOn: Container_Build
+  condition: succeeded('Container_Build')
   pool:
     vmImage: 'Ubuntu 16.04'
   container: gcc49
