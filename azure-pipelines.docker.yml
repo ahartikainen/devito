@@ -42,7 +42,7 @@ jobs:
         container.name: gcc49
       gcc5:
         container.name: gcc5
-      maxParallel: 2
+    maxParallel: 2
 
   container: $(container.name)
   steps:
