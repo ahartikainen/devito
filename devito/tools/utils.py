@@ -161,8 +161,12 @@ def ctypes_to_C(ctype):
         # A primitive datatype
         # FIXME: Is there a better way of extracting the C typename ?
         # Here, we're following the ctypes convention that each basic type has
-        # the format c_X_p, where X is the C typename, for instance `int` or `float`.
-        return ctype.__name__[2:-2]
+        # either the format c_X_p or c_X, where X is the C typename, for instance
+        # `int` or `float`.
+        if ctype.__name__.endswith('_p'):
+            return ctype.__name__[2:-2]
+        else:
+            return ctype.__name__[2:]
     else:
         # A custom datatype (e.g., a typedef-ed pointer to struct)
         return ctype.__name__
