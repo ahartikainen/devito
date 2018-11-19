@@ -6,6 +6,8 @@ resources:
   containers:
   - container: gcc49
     image: 'tmbgreaves/devito-gcc-4.9'
+  - container: gcc5
+    image: 'tmbgreaves/devito-gcc-5'
 
 jobs:
 - job: Container_Build
@@ -34,7 +36,15 @@ jobs:
   condition: succeeded('Container_Build')
   pool:
     vmImage: 'Ubuntu 16.04'
-  container: gcc49
+  strategy:
+    matrix:
+      gcc4:
+        container.name: gcc49
+      gcc5:
+        container.name: gcc5
+      maxParallel: 2
+
+  container: $(container.name)
   steps:
   - script: git clean -fxd
     displayName: 'Restore checkout to clean state'
