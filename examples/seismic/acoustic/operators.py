@@ -48,9 +48,9 @@ def iso_stencil(field, m, s, damp, kernel, **kwargs):
         Full-space/time source of the wave-equation.
     """
 
-    # Creat a temporary symbol for H to avoid expensive sympy solve
+    # Create a temporary symbol for H to avoid expensive sympy solve
     H = Symbol('H')
-    # Define time sep to be updated
+    # Define time step to be updated
     next = field.forward if kwargs.get('forward', True) else field.backward
     # Define PDE
     eq = m * field.dt2 - H - kwargs.get('q', 0)

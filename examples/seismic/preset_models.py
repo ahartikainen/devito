@@ -219,7 +219,7 @@ def demo_model(preset, **kwargs):
     elif preset.lower() in ['circle-isotropic']:
         # A simple circle in a 2D domain with a background velocity.
         # By default, the circle velocity is 2.5 km/s,
-        # and the background veloity is 3.0 km/s.
+        # and the background velocity is 3.0 km/s.
         vp = kwargs.pop('vp_circle', 3.0)
         vp_background = kwargs.pop('vp_background', 2.5)
         r = kwargs.pop('r', 15)
@@ -279,24 +279,24 @@ def demo_model(preset, **kwargs):
                                 dtype='float32', sep="")
         vp = vp.reshape(shape_full)
         vp = vp[101, :, :]
-        # Epsilon, in % in file, resale between 0 and 1
+        # Epsilon, in % in file, rescale between 0 and 1
         epsilon = np.fromfile(os.path.join(data_path, 'marmousi3D/MarmousiEps.raw'),
                               dtype='float32', sep="") * 1e-2
         epsilon = epsilon.reshape(shape_full)
         epsilon = epsilon[101, :, :]
-        # Delta, in % in file, resale between 0 and 1
+        # Delta, in % in file, rescale between 0 and 1
         delta = np.fromfile(os.path.join(data_path, 'marmousi3D/MarmousiDelta.raw'),
                             dtype='float32', sep="") * 1e-2
         delta = delta.reshape(shape_full)
         delta = delta[101, :, :]
-        # Theta, in degrees in file, resale in radian
+        # Theta, in degrees in file, rescale in radian
         theta = np.fromfile(os.path.join(data_path, 'marmousi3D/MarmousiTilt.raw'),
                             dtype='float32', sep="")
         theta = np.float32(np.pi / 180 * theta.reshape(shape_full))
         theta = theta[101, :, :]
 
         if preset.lower() in ['marmousi-tti3d', 'marmousi3d-tti']:
-            # Phi, in degrees in file, resale in radian
+            # Phi, in degrees in file, rescale in radian
             phi = np.fromfile(os.path.join(data_path, 'marmousi3D/Azimuth.raw'),
                               dtype='float32', sep="")
             phi = np.float32(np.pi / 180 * phi.reshape(shape))

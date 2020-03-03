@@ -51,7 +51,7 @@ class DevitoCheckpoint(Checkpoint):
        pyRevolve. Holds a list of symbol objects that hold data.
     """
     def __init__(self, objects):
-        """Intialise a checkpoint object. Upon initialisation, a checkpoint
+        """Initialise a checkpoint object. Upon initialisation, a checkpoint
         stores only a reference to the objects that are passed into it."""
         assert(all(isinstance(o, TimeFunction) for o in objects))
         dtypes = set([o.dtype for o in objects])

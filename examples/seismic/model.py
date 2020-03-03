@@ -225,7 +225,7 @@ class Model(GenericModel):
         """
         # For a fixed time order this number decreases as the space order increases.
         #
-        # The CFL condtion is then given by
+        # The CFL condition is then given by
         # dt <= coeff * h / (max(velocity))
         coeff = 0.38 if len(self.shape) == 3 else 0.42
         dt = self.dtype(coeff * np.min(self.spacing) / (self.scale*self._max_vp))
@@ -338,7 +338,7 @@ class ModelElastic(GenericModel):
         """
         # For a fixed time order this number decreases as the space order increases.
         #
-        # The CFL condtion is then given by
+        # The CFL condition is then given by
         # dt < h / (sqrt(ndim) * max(vp)))
         dt = .85*np.min(self.spacing) / (np.sqrt(3.)*self.maxvp)
         return self.dtype("%.3e" % dt)
